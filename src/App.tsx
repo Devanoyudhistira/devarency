@@ -4,8 +4,7 @@ import Convertcard from "./components/convert-card";
 import Tablecurency from "./components/table-currency";
 type ExchangeRateResponse = {
   result: string;
-  documentation: string;
-  us;
+  documentation: string;  
   terms_of_use: string;
   time_last_update_unix: number;
   time_last_update_utc: string;
@@ -13,7 +12,7 @@ type ExchangeRateResponse = {
   time_next_update_utc: string;
   base_code: string;
   target_code: string;
-  conversion_rate: number;
+  conversion_rates: Record<string, number>;
 };
 
 export default function StatusBar() {

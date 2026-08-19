@@ -53,8 +53,7 @@ type ExchangeRateResponse = {
   time_next_update_unix: number;
   time_next_update_utc: string;
   base_code: string;
-  target_code: string;
-  conversion_rate: number;
+  target_code: string;  
   conversion_rates: Record<string, number>;
 };
 
