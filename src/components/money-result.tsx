@@ -1,6 +1,6 @@
 import convertToMoney from "@/lib/convert";
 import { Item } from "./ui/item";
-import { Button } from "./ui/button";
+import Nationbutton from "./nation-button";
 
 export default function Moneyresult() {
   return (
@@ -11,13 +11,7 @@ export default function Moneyresult() {
           {" "}
           {convertToMoney(125000, "USD")}{" "}
         </h1>
-        <Button
-          size="lg"
-          value={`default`}
-          className={`bg-primary text-white border-2 shadow-[4px_4px_0_black]`}
-        >
-          IDR
-        </Button>
+        <Nationbutton nation="USD" />
       </div>
     </Item>
   );

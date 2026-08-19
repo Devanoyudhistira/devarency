@@ -10,7 +10,7 @@ export default function Convertcard(){
     return (
         <Card className="bg-slate-800 shadow-[8px_8px_0_black] w-[80%] flex flex-col items-center " >
             <h1 className="text-primary text-3xl font-black flex items-center gap-2 " >  <DollarSign className="size-8" /> Convert Money </h1>
-            <CardContent className="flex flex-col gap-4 items-center" >
+            <CardContent className="flex flex-col lg:flex-row gap-4 items-center" >
                 <Moneyinput inputname="base currency" />
                 <Button variant="default" size="icon-lg" className={`rounded-full p-4 `} >
                     <ArrowDownUp color="white" className="size-6" />
