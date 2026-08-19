@@ -63,8 +63,8 @@ export default function Tablecurency({
   moneydata: ExchangeRateResponse;
 }) {
   const [countries, setCountries] = useState<Country[]>([]);
-  console.log(countries.map((e) => e.currencies[0]?.code));
-  console.log(moneydata?.conversion_rates);
+  // console.log(countries.map((e) => e.currencies[0]?.code));
+  // console.log(moneydata?.conversion_rates);
 
   useEffect(() => {
     async function getCountries() {
@@ -77,6 +77,7 @@ export default function Tablecurency({
             },
           },
         );
+
         setCountries(response.data.data.objects);
       } catch (error) {
         console.error(error);
@@ -109,7 +110,6 @@ export default function Tablecurency({
             <TableHead>Common Name</TableHead>
             <TableHead>Official Name</TableHead>
             <TableHead className="">currencies</TableHead>
-            <TableHead className="">currency code</TableHead>
             <TableHead className="">conversion_rate</TableHead>
           </TableRow>
         </TableHeader>
@@ -130,17 +130,18 @@ export default function Tablecurency({
               </TableCell>
               <TableCell className="w-5"> {e.names.common} </TableCell>
               <TableCell className="w-5"> {e.names.official} </TableCell>
-              <TableCell>{e.currencies[0]?.name || "unknown"}</TableCell>
               <TableCell>{e.currencies[0]?.code || "unknown"}</TableCell>
               <TableCell>
-                {Object.entries(moneydata.conversion_rates)
-                  .filter(
-                    ([currencies]) =>
-                      currencies === countries[i].currencies[0]?.code,
-                  )
-                  .map(([currencies, rates]) =>
-                    convertToMoney(rates, currencies),
-                  )}
+                {moneydata.conversion_rates &&
+                  typeof moneydata.conversion_rates === "object" &&
+                  Object.entries(moneydata.conversion_rates)
+                    .filter(
+                      ([currency]) =>
+                        currency === countries[i].currencies[0]?.code,
+                    )
+                    .map(([currency, rates]) =>
+                      convertToMoney(rates, currency),
+                    )}
               </TableCell>
             </TableRow>
           ))}

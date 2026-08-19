@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Convertcard from "./components/convert-card";
 import Tablecurency from "./components/table-currency";
+import Convertcard from "./components/convert-card";
 type ExchangeRateResponse = {
   result: string;
   documentation: string;
@@ -15,8 +15,9 @@ type ExchangeRateResponse = {
   conversion_rates: Record<string, number>;
 };
 
+
 export default function StatusBar() {
-  const [moneyrecord, setmoneyrecord] = useState<ExchangeRateResponse>();
+  const [moneyrecord, setmoneyrecord] = useState<ExchangeRateResponse>();  
   useEffect(() => {
     async function getcurrency() {
       try {
@@ -32,11 +33,12 @@ export default function StatusBar() {
     }
     getcurrency();
   }, []);
+  
 
   return (
     <div className="w-screen bg-background">
       <main className="flex mt-6 flex-col gap-5 items-center">
-        <Convertcard />
+        <Convertcard  />
         {moneyrecord && <Tablecurency moneydata={moneyrecord} />}
       </main>
     </div>
