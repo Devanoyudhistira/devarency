@@ -18,8 +18,10 @@ export default function Moneyinput({ inputname,onchange }:props) {
         <NumericFormat
           customInput={Input}
           placeholder="insert nominee here"
-          className="border border-primary ring-0 placeholder:text-sm  outline-0 text-2xl font-black"          
+          className="border border-primary ring-0 placeholder:text-sm  outline-0 text-2xl font-black"
+          thousandSeparator="."
           type="tel"
+          decimalSeparator=","
           name="harga"
           id="price"
           onChange={onchange}      

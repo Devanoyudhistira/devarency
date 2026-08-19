@@ -40,14 +40,16 @@ export default function Convertcard() {
   }, []);
   console.log(moneynominee);
   return (
-    <Card className="bg-slate-800 shadow-[8px_8px_0_black] w-[80%] flex flex-col items-center ">
+    <Card className="bg-slate-800 shadow-[8px_8px_0_black] w-[95%] flex flex-col items-center ">
       <h1 className="text-primary text-3xl font-black flex items-center gap-2 ">
         {" "}
         <DollarSign className="size-8" /> Convert Money{" "}
       </h1>
       <CardContent className="flex flex-col lg:flex-row gap-4 items-center">
         <Moneyinput
-          onchange={(e) => setmoneynominee(Number(e.currentTarget.value))}
+          onchange={(e) =>
+            setmoneynominee(Number(e.currentTarget.value.replace(/[.,]/g, "")))
+          }
           inputname="base currency"
         />
         <Button
@@ -57,15 +59,18 @@ export default function Convertcard() {
         >
           <ArrowDownUp color="white" className="size-6" />
         </Button>
-        <Moneyresult money={moneyrecord?.conversion_rate * moneynominee} currency={moneyrecord?.target_code} />
+        {moneyrecord?.conversion_rate &&  <Moneyresult
+          money={moneyrecord?.conversion_rate * moneynominee}
+          currency={moneyrecord?.target_code}
+        />}
       </CardContent>
       {moneyrecord?.target_code && (
         <CardFooter className="text-md text-gray-500 font-semibold">
           {" "}
-          {moneynominee} {moneyrecord?.base_code} ={" "}
+          {convertToMoney(moneynominee,moneyrecord?.base_code)} {moneyrecord?.base_code} ={" "}
           {/* {moneyrecord?.conversion_rate * moneynominee} */}
           {convertToMoney(
-            moneyrecord?.conversion_rate * moneynominee ,
+            moneyrecord?.conversion_rate * moneynominee,
             moneyrecord?.target_code,
           )}{" "}
         </CardFooter>

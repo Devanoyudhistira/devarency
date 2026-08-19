@@ -98,7 +98,7 @@ export default function Tablecurency({
   // }
 
   return (
-    <Card className="w-[80%] text-white bg-slate-950 px-4 py-2">
+    <Card className="w-[98%] text-white bg-slate-950 px-4 py-2">
       <h1 className="text-3xl font-black text-green-600">
         {" "}
         currency dashboard{" "}
