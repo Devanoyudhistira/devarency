@@ -4,7 +4,7 @@ import Convertcard from "./components/convert-card";
 import Tablecurency from "./components/table-currency";
 type ExchangeRateResponse = {
   result: string;
-  documentation: string;  
+  documentation: string;
   terms_of_use: string;
   time_last_update_unix: number;
   time_last_update_utc: string;
@@ -16,7 +16,7 @@ type ExchangeRateResponse = {
 };
 
 export default function StatusBar() {
-  const [moneyrecord,setmoneyrecord] = useState<ExchangeRateResponse>()
+  const [moneyrecord, setmoneyrecord] = useState<ExchangeRateResponse>();
   useEffect(() => {
     async function getcurrency() {
       try {
@@ -24,8 +24,8 @@ export default function StatusBar() {
           await axios.get(
             `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_KEY}/latest/USD`,
           )
-        ).data;        
-        setmoneyrecord(response)
+        ).data;
+        setmoneyrecord(response);
       } catch (error) {
         console.error(error);
       }
@@ -34,11 +34,11 @@ export default function StatusBar() {
   }, []);
 
   return (
-    <div className="w-screen bg-background">    
-    <main className="flex mt-6 flex-col gap-5 items-center" >
-      <Convertcard/> 
-      <Tablecurency moneydata={moneyrecord} />
-    </main>
+    <div className="w-screen bg-background">
+      <main className="flex mt-6 flex-col gap-5 items-center">
+        <Convertcard />
+        {moneyrecord && <Tablecurency moneydata={moneyrecord} />}
+      </main>
     </div>
   );
 }
