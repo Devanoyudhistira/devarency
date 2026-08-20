@@ -13,7 +13,7 @@ import newcountry from "@/model/allcountry";
 
 type props = {
   opencondition: boolean;
-  onchange: React.ComponentProps<typeof Dialog>["onOpenChange"];
+  onchange: (open: boolean) => void;
   changenation: (nation: string) => void;
   changefullnation: (nation: string) => void;
 };
@@ -26,7 +26,7 @@ export default function Nationdialog({
 }: props) {
   const countries = useCountryStore((state) => state.countries);
   const getCountries = useCountryStore((state) => state.getCountries);
- 
+
   const allcountry = [...countries, ...newcountry];
 
   useEffect(() => {
@@ -55,6 +55,7 @@ export default function Nationdialog({
                       onClick={() => {
                         changenation(e.currencies[0].code);
                         changefullnation(e.names.common);
+                        onchange(false);
                       }}
                       type="button"
                       size="lg"
