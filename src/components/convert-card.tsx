@@ -62,9 +62,9 @@ export default function Convertcard() {
         onchange={setopenlastnation}
         opencondition={openlastnation}
       />
-      <h1 className="text-primary text-3xl font-black flex items-center gap-2 ">
+      <h1 className="text-primary text-3xl font-black font-[Space Mono] flex items-center gap-2 ">
         {" "}
-        <DollarSign className="size-8" /> Convert Money{" "}
+        <DollarSign className="size-8 " /> Convert Money{" "}
       </h1>
       <CardContent className="flex flex-col lg:flex-row gap-4 items-center">
         <Moneyinput
@@ -96,8 +96,7 @@ export default function Convertcard() {
       {moneyrecord?.target_code && (
         <CardFooter className="text-md text-gray-500 font-semibold">
           {" "}
-          {convertToMoney(moneynominee, moneyrecord?.base_code)}{" "}
-          {moneyrecord?.base_code} ={" "}
+          {convertToMoney(moneynominee, moneyrecord?.base_code)}{" "}={" "}
           {/* {moneyrecord?.conversion_rate * moneynominee} */}
           {convertToMoney(
             moneyrecord?.conversion_rate * moneynominee,

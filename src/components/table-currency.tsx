@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Card } from "./ui/card";
+import { Card, CardHeader } from "./ui/card";
 import {
   Table,
   TableBody,
@@ -8,9 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import {  SquareOff } from "lucide-react";
+import { SquareOff } from "lucide-react";
 import convertToMoney from "@/lib/convert";
 import { useCountryStore } from "@/model/countrystore";
+import newcountry from "@/model/allcountry";
 
 type ExchangeRateResponse = {
   result: string;
@@ -31,18 +32,25 @@ export default function Tablecurency({
   moneydata: ExchangeRateResponse;
 }) {
   const countries = useCountryStore((state) => state.countries);
-  const getCountries = useCountryStore((state) => state.getCountries);  
+  const getCountries = useCountryStore((state) => state.getCountries);
+  const allcountry = [...countries, ...newcountry];
 
   useEffect(() => {
     getCountries();
-  }, [getCountries]);  
+  }, [getCountries]);
 
   return (
     <Card className="w-[98%] text-white bg-slate-950 px-4 py-2">
-      <h1 className="text-3xl font-black text-green-600">
-        {" "}
-        currency dashboard{" "}
-      </h1>
+      <CardHeader className="flex items-center px-0 justify-between">
+        <h1 className="text-lg font-black capitalize text-green-600">
+          {" "}
+          currency dashboard{" "}
+        </h1>
+        <h1 className="text-green-500 text-lg font-semibold border border-green-500 p-2 rounded-xl">
+          {" "}
+          Base on $1 USD{" "}
+        </h1>
+      </CardHeader>
       <Table className="w-full">
         <TableHeader>
           <TableRow className="*:text-white">
@@ -54,37 +62,41 @@ export default function Tablecurency({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {countries.map((e, i) => (
-            <TableRow>
-              <TableCell className="font-medium">
-                {e.flag.url_png ? (
-                  <img
-                    src={e.flag.url_png}
-                    alt={` flag`}
-                    width={20}
-                    height={20}
-                  />
-                ) : (
-                  <SquareOff />
-                )}
-              </TableCell>
-              <TableCell className="w-5"> {e.names.common} </TableCell>
-              <TableCell className="w-5"> {e.names.official} </TableCell>
-              <TableCell>{e.currencies[0]?.code || "unknown"}</TableCell>
-              <TableCell>
-                {moneydata.conversion_rates &&
-                  typeof moneydata.conversion_rates === "object" &&
-                  Object.entries(moneydata.conversion_rates)
-                    .filter(
-                      ([currency]) =>
-                        currency === countries[i].currencies[0]?.code,
-                    )
-                    .map(([currency, rates]) =>
-                      convertToMoney(rates, currency),
-                    )}
-              </TableCell>
-            </TableRow>
-          ))}
+          {allcountry
+            .sort((a, b) => a.names.common.localeCompare(b.names.common))
+            .map((e, i) => (
+              <TableRow>
+                <TableCell className="font-medium">
+                  {e.flag.url_png ? (
+                    <img
+                      src={e.flag.url_png}
+                      alt={` flag`}
+                      width={20}
+                      height={20}
+                    />
+                  ) : (
+                    <SquareOff />
+                  )}
+                </TableCell>
+                <TableCell className="w-5"> {e.names.common} </TableCell>
+                <TableCell className="w-5"> {e.names.official} </TableCell>
+                <TableCell>{e.currencies[0]?.code || "unknown"}</TableCell>
+                <TableCell>
+                  {e.currencies[0]?.code
+                    ? moneydata.conversion_rates &&
+                      typeof moneydata.conversion_rates === "object" &&
+                      Object.entries(moneydata.conversion_rates)
+                        .filter(
+                          ([currency]) =>
+                            currency === allcountry[i]?.currencies[0]?.code,
+                        )
+                        .map(([currency, rates]) =>
+                          convertToMoney(rates, currency),
+                        )
+                    : "unavalaible"}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </Card>

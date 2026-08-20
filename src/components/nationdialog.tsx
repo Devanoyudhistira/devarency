@@ -8,6 +8,8 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { useCountryStore } from "@/model/countrystore";
+import { SquareOff } from "lucide-react";
+import newcountry from "@/model/allcountry";
 
 type props = {
   opencondition: boolean;
@@ -20,15 +22,11 @@ export default function Nationdialog({
   opencondition,
   onchange,
   changenation,
-  changefullnation
+  changefullnation,
 }: props) {
   const countries = useCountryStore((state) => state.countries);
   const getCountries = useCountryStore((state) => state.getCountries);
-  const newcountry = [
-    { names: { common: "Indonesia" }, currencies: [{ code: "IDR" }] },
-    { names: { common: "Malaysia" }, currencies: [{ code: "MYR" }] },
-    { names: { common: "America" }, currencies: [{ code: "USD" }] },
-  ];
+ 
   const allcountry = [...countries, ...newcountry];
 
   useEffect(() => {
@@ -37,26 +35,59 @@ export default function Nationdialog({
 
   return (
     <Dialog open={opencondition} onOpenChange={onchange}>
-      <DialogContent className={`text-primary font-semibold text-lg `}>
+      <DialogContent
+        className={`text-primary bg-background font-semibold text-lg `}
+      >
         <DialogHeader>
-          <DialogTitle>choose the nation</DialogTitle>
-          <DialogDescription>with 25 different nation</DialogDescription>
+          <DialogTitle className={`text-2xl`}>choose the nation</DialogTitle>
+          <DialogDescription className={`text-lg -mt-2`}>
+            with 25 different nation
+          </DialogDescription>
         </DialogHeader>
         {
-          <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
-            {allcountry.map((e) => (
-              <Button
-                onClick={() => {
-                  changenation(e.currencies[0].code);
-                  changefullnation(e.names.common)
-                }}
-                type="button"
-                size="lg"
-                variant="default"
-              >
-                {e.names.common}
-              </Button>
-            ))}
+          <div className=" no-scrollbar flex flex-col gap-2 max-h-[50vh] overflow-y-auto px-4">
+            {allcountry
+              .sort((a, b) => a.names.common.localeCompare(b.names.common))
+              .map(
+                (e) =>
+                  e.currencies[0]?.code && (
+                    <Button
+                      onClick={() => {
+                        changenation(e.currencies[0].code);
+                        changefullnation(e.names.common);
+                      }}
+                      type="button"
+                      size="lg"
+                      variant="default"
+                      className={`py-5 h-15 bg-green-400 text-left px-3 flex justify-between`}
+                    >
+                      <div className="flex items-center gap-1.5">
+                        {e.flag?.url_svg ? (
+                          <img
+                            src={e.flag?.url_png}
+                            className="w-10 h-10 rounded-full border"
+                            alt=""
+                          />
+                        ) : (
+                          <SquareOff className="size-8" />
+                        )}
+                        <div className="flex flex-col justify-center text-black text-left">
+                          <h2 className="  p-0 items-center text-2xl  font-semibold">
+                            {e.names?.common}
+                          </h2>
+                          <span className="text-md -mt-2 ">
+                            {" "}
+                            {e.currencies[0]?.name}{" "}
+                          </span>
+                        </div>
+                      </div>
+                      <h3 className="text-sm bg-white text-black border-black p-1 border-2">
+                        {" "}
+                        {e.currencies[0]?.code}{" "}
+                      </h3>
+                    </Button>
+                  ),
+              )}
           </div>
         }
       </DialogContent>
