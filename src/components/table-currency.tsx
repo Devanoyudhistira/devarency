@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Card } from "./ui/card";
 import {
   Table,
@@ -8,41 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import axios from "axios";
-import { SquareOff } from "lucide-react";
+import {  SquareOff } from "lucide-react";
 import convertToMoney from "@/lib/convert";
-type Country = {
-  names: {
-    common: string;
-    official: string;
-  };
-
-  codes: {
-    alpha_2: string;
-    alpha_3: string;
-  };
-
-  flag: {
-    emoji: string;
-    url_png: string;
-    url_svg: string;
-  };
-
-  currencies: {
-    code: string;
-    name: string;
-    symbol: string;
-  }[];
-
-  region: string;
-  subregion: string;
-};
-
-type CountryResponse = {
-  data: {
-    objects: Country[];
-  };
-};
+import { useCountryStore } from "@/model/countrystore";
 
 type ExchangeRateResponse = {
   result: string;
@@ -62,40 +30,12 @@ export default function Tablecurency({
 }: {
   moneydata: ExchangeRateResponse;
 }) {
-  const [countries, setCountries] = useState<Country[]>([]);
-  // console.log(countries.map((e) => e.currencies[0]?.code));
-  // console.log(moneydata?.conversion_rates);
+  const countries = useCountryStore((state) => state.countries);
+  const getCountries = useCountryStore((state) => state.getCountries);  
 
   useEffect(() => {
-    async function getCountries() {
-      try {
-        const response = await axios.get<CountryResponse>(
-          "https://api.restcountries.com/countries/v5",
-          {
-            headers: {
-              Authorization: import.meta.env.VITE_EXCHANGE_COUNTRY_KEY,
-            },
-          },
-        );
-
-        setCountries(response.data.data.objects);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     getCountries();
-  }, []);
-
-  // if (moneydata?.conversion_rates && countries[0]?.currencies[0]?.code) {
-  //   console.log(
-  //     Object.entries(moneydata.conversion_rates)
-  //       .filter(
-  //         ([currencies]) => currencies === countries[0].currencies[0]?.code,
-  //       )
-  //       .map(([currencies, rates]) => currencies),
-  //   );
-  // }
+  }, [getCountries]);  
 
   return (
     <Card className="w-[98%] text-white bg-slate-950 px-4 py-2">
