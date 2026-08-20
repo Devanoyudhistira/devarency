@@ -8,7 +8,7 @@ type props = {
   currency:string;  
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   nation: string;
-  nationname
+  nationname:string
 };
 
 export default function Moneyresult({money,currency,onClick,nation,nationname}:props) {
