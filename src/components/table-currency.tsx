@@ -43,7 +43,7 @@ export default function Tablecurency({
 
   return (
     <Card className="w-[98%] text-white bg-slate-950 px-4 py-2">
-      {loading ? (
+      {!loading ? (
         <>
           <CardHeader className="flex items-center px-0 justify-between">
             <h1 className="text-lg font-black capitalize text-green-600">
