@@ -98,10 +98,10 @@ export default function Convertcard() {
           {" "}
           {convertToMoney(moneynominee, moneyrecord?.base_code)}{" "}={" "}
           {/* {moneyrecord?.conversion_rate * moneynominee} */}
-          {convertToMoney(
-            moneyrecord?.conversion_rate * moneynominee,
-            moneyrecord?.target_code,
-          )}{" "}
+          {
+            moneyrecord?.conversion_rate * moneynominee + " " +
+            moneyrecord?.target_code
+          }
         </CardFooter>
       )}
     </Card>
